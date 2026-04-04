@@ -31,9 +31,9 @@ public class ProdutosDAO {
             prep.executeUpdate();
 
             //Mensagem de confirmação
-            JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+            JOptionPane.showMessageDialog(null, "Produto salvo com sucesso.");
         } catch (SQLException ex) { //Coleta os possíveis erros e exibe através do getMessage()
-            JOptionPane.showMessageDialog(null, "Erro ao salvar: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "ERRO. Não foi possivel salvar os dados: " + ex.getMessage());
         } finally {
 
         }
@@ -70,5 +70,53 @@ public class ProdutosDAO {
 
         return lista;
     }
+    
+    //Recebe como parâmetro o Id de um produto
+    public void venderProduto(Integer id){
+        
+        conn = new conectaDAO().connectDB(); 
+        
+        //Instrução SQL
+        String sql = "UPDATE produtos SET status=? WHERE id=?";
+        
+        try {
+            //Controlando e executando a Instrução SQL
+            prep = conn.prepareStatement(sql);
+            prep.setString(1, "Vendido"); //Atribui para a primeira interrogação "Vendido" como parâmetro
+            prep.setInt(2, id);
+            
+            //Enviando para o MySQL
+            prep.executeUpdate();
+            
+            //Mensagem de confirmação
+            JOptionPane.showMessageDialog(null, "Vendido com sucesso.");
+        } catch (SQLException ex) { //Coleta os possíveis erros e exibe através do getMessage()
+            JOptionPane.showMessageDialog(null, "Erro ao vender: " + ex.getMessage());
+        }
+    
+    }
 
 }
+/*
+public void venderProduto(int id){
+
+    conn = new conectaDAO().connectDB(); 
+
+    String sql = "UPDATE produtos SET status=? WHERE id=?";
+
+    try {
+        prep = conn.prepareStatement(sql);
+        prep.setString(1, "Vendido");
+        prep.setInt(2, id);
+
+        prep.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Produto vendido com sucesso.");
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Erro ao vender: " + ex.getMessage());
+    }
+}
+
+
+*/
